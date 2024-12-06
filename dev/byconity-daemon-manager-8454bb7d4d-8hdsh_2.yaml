@@ -1,0 +1,80 @@
+Name:             byconity-daemon-manager-8454bb7d4d-8hdsh
+Namespace:        byconity
+Priority:         0
+Service Account:  default
+Node:             minikube/kjalskjfalsdfj
+Start Time:       Fri, 06 Dec 2024 15:42:16 +0800
+Labels:           app.kubernetes.io/instance=byconity
+                  app.kubernetes.io/name=byconity
+                  byconity-role=daemon-manager
+                  pod-template-hash=8454bb7d4d
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/byconity-daemon-manager-8454bb7d4d
+Containers:
+  byconity-daemon-manager:
+    Container ID:   
+    Image:          byconity/byconity:stable
+    Image ID:       
+    Port:           9000/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       ContainerCreating
+    Ready:          False
+    Restart Count:  0
+    Liveness:       exec [/opt/byconity/scripts/lifecycle/liveness-dm] delay=5s timeout=20s period=10s #success=1 #failure=6
+    Readiness:      exec [/opt/byconity/scripts/lifecycle/readiness-dm] delay=10s timeout=10s period=10s #success=1 #failure=5
+    Environment:
+      MY_POD_NAMESPACE:  byconity (v1:metadata.namespace)
+      MY_POD_NAME:       byconity-daemon-manager-8454bb7d4d-8hdsh (v1:metadata.name)
+      MY_UID:             (v1:metadata.uid)
+      MY_POD_IP:          (v1:status.podIP)
+      MY_HOST_IP:         (v1:status.podIP)
+      CONSUL_HTTP_HOST:   (v1:status.hostIP)
+      BYCONITY_ROLE:     daemon-manager
+    Mounts:
+      /etc/byconity from config (rw)
+      /etc/byconity/fdb from fdb-config (rw)
+      /etc/service/byconity/run from run (rw,path="run")
+      /opt/byconity/scripts/lifecycle from lifecycle (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-snktz (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   False 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  run:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      byconity-dm-run
+    Optional:  false
+  config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      byconity-dm-config
+    Optional:  false
+  lifecycle:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      byconity-lifecycle
+    Optional:  false
+  fdb-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      byconity-fdb-config
+    Optional:  false
+  kube-api-access-snktz:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason       Age                  From               Message
+  ----     ------       ----                 ----               -------
+  Normal   Scheduled    14m                  default-scheduler  Successfully assigned byconity/byconity-daemon-manager-8454bb7d4d-8hdsh to minikube

@@ -1,0 +1,217 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-12-06T07:42:16Z"
+  generateName: byconity-daemon-manager-8454bb7d4d-
+  labels:
+    app.kubernetes.io/instance: byconity
+    app.kubernetes.io/name: byconity
+    byconity-role: daemon-manager
+    pod-template-hash: 8454bb7d4d
+  name: byconity-daemon-manager-8454bb7d4d-8hdsh
+  namespace: byconity
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: byconity-daemon-manager-8454bb7d4d
+    uid: 5cc30507-a59f-4689-905b-aa8072f3fe15
+  resourceVersion: "3957"
+  uid: 1d1d32db-8062-4b9a-8dbf-6a1049aa07b3
+spec:
+  containers:
+  - env:
+    - name: MY_POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: MY_POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: MY_UID
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.uid
+    - name: MY_POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: MY_HOST_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: CONSUL_HTTP_HOST
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.hostIP
+    - name: BYCONITY_ROLE
+      value: daemon-manager
+    image: byconity/byconity:stable
+    imagePullPolicy: IfNotPresent
+    lifecycle:
+      postStart:
+        exec:
+          command:
+          - /opt/byconity/scripts/lifecycle/poststart
+      preStop:
+        exec:
+          command:
+          - /opt/byconity/scripts/lifecycle/prestop
+    livenessProbe:
+      exec:
+        command:
+        - /opt/byconity/scripts/lifecycle/liveness-dm
+      failureThreshold: 6
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 20
+    name: byconity-daemon-manager
+    ports:
+    - containerPort: 9000
+      name: tcp
+      protocol: TCP
+    readinessProbe:
+      exec:
+        command:
+        - /opt/byconity/scripts/lifecycle/readiness-dm
+      failureThreshold: 5
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 10
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/service/byconity/run
+      name: run
+      subPath: run
+    - mountPath: /etc/byconity
+      name: config
+    - mountPath: /opt/byconity/scripts/lifecycle
+      name: lifecycle
+    - mountPath: /etc/byconity/fdb
+      name: fdb-config
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-snktz
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - configMap:
+      defaultMode: 493
+      name: byconity-dm-run
+    name: run
+  - configMap:
+      defaultMode: 420
+      name: byconity-dm-config
+    name: config
+  - configMap:
+      defaultMode: 493
+      name: byconity-lifecycle
+    name: lifecycle
+  - configMap:
+      defaultMode: 420
+      name: byconity-fdb-config
+    name: fdb-config
+  - name: kube-api-access-snktz
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-12-06T07:42:16Z"
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2024-12-06T07:42:16Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-12-06T07:42:16Z"
+    message: 'containers with unready status: [byconity-daemon-manager]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-12-06T07:42:16Z"
+    message: 'containers with unready status: [byconity-daemon-manager]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-12-06T07:42:16Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: byconity/byconity:stable
+    imageID: ""
+    lastState: {}
+    name: byconity-daemon-manager
+    ready: false
+    restartCount: 0
+    started: false
+    state:
+      waiting:
+        reason: ContainerCreating
+    volumeMounts:
+    - mountPath: /etc/service/byconity/run
+      name: run
+    - mountPath: /etc/byconity
+      name: config
+    - mountPath: /opt/byconity/scripts/lifecycle
+      name: lifecycle
+    - mountPath: /etc/byconity/fdb
+      name: fdb-config
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-snktz
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: a
+  hostIPs:
+  - ip: a 
+  phase: Pending
+  qosClass: BestEffort
+  startTime: "2024-12-06T07:42:16Z"

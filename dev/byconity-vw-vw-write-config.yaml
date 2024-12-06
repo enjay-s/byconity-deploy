@@ -1,0 +1,348 @@
+apiVersion: v1
+data:
+  cnch-config.yaml: |
+    catalog:
+      name_space: byconity
+    catalog_service:
+      fdb:
+        cluster_file: /etc/byconity/fdb/cluster-file
+      type: fdb
+    cnch_config: /etc/byconity/cnch-config.yaml
+    cnch_kafka_log:
+      database: cnch_system
+      flush_interval_milliseconds: 60000
+      flush_max_row_count: 100000
+      table: cnch_kafka_log
+    cnch_type: worker
+    dictionaries_config: '*_dictionary.xml'
+    disk_cache_strategies:
+      simple:
+        lru_max_size: 429496729600
+    exchange_port: 9410
+    exchange_status_port: 9510
+    format_schema_path: /var/byconity/format_schemas/
+    hdfs_addr: hdfs://byconity-hdfs-namenodes:8020
+    hdfs3_config: /etc/byconity/hdfs3.xml
+    http_port: 8123
+    listen_host:
+    - '::'
+    - 0.0.0.0
+    listen_try: 1
+    logger:
+      console: true
+      count: 50
+      errorlog: /var/log/byconity/byconity.err.log
+      level: trace
+      log: /var/log/byconity/byconity.log
+      size: 5000M
+      testlog: /var/log/byconity/byconity.test.log
+    mark_cache_size: 5368709120
+    merge_selector: dance
+    path: /var/byconity
+    plan_segment_log:
+      database: system
+      flush_interval_milliseconds: 15000
+      partition_by: event_date
+      table: plan_segment_log
+    prometheus:
+      asynchronous_metrics: true
+      endpoint: /metrics
+      events: true
+      metrics: true
+      part_metrics: false
+      port: 0
+    query_log:
+      database: system
+      flush_interval_milliseconds: 15000
+      partition_by: event_date
+      table: query_log
+    rpc_port: 8124
+    service_discovery:
+      cluster: default
+      daemon_manager:
+        headless_service: byconity-daemon-manager-headless
+        psm: byconity-daemon-manager
+        service: byconity-daemon-manager
+      mode: dns
+      resource_manager:
+        headless_service: byconity-resource-manager-headless
+        psm: byconity-resource-manager
+        service: byconity-resource-manager
+      server:
+        headless_service: byconity-server-headless
+        psm: byconity-server
+        service: byconity-server
+      tso:
+        headless_service: byconity-tso-headless
+        psm: byconity-tso
+        service: byconity-tso
+      vw: {}
+    service_discovery_kv:
+      resource_manager:
+        expired_interval_ms: 6000
+        host_path: data.cnch.resource_manager-election
+        refresh_interval_ms: 1000
+      server_manager:
+        expired_interval_ms: 6000
+        host_path: data.cnch.server-election
+        refresh_interval_ms: 1000
+      tso:
+        expired_interval_ms: 6000
+        host_path: data.cnch.tso-election
+        refresh_interval_ms: 1000
+    storage_configuration:
+      cnch_default_policy: cnch_default_hdfs
+      disks:
+        server_hdfs_disk:
+          path: /var/byconity/data
+          type: hdfs
+        server_local_0:
+          path: /var/byconity/data/
+          type: local
+      policies:
+        cnch_default_hdfs:
+          volumes:
+            hdfs:
+              default: server_hdfs_disk
+              disk: server_hdfs_disk
+        default:
+          volumes:
+            local:
+              default: server_local_0
+              disk: server_local_0
+    tcp_port: 9000
+    tmp_path: /var/byconity/tmp
+    tso_service:
+      tso_get_leader_info_interval_ms: 0
+      tso_max_retry_count: 3
+      tso_window_ms: 3000
+    users_config: /etc/byconity/users.yaml
+  hdfs3.xml: |
+    <configuration>
+        <property>
+            <name>dfs.client.metrics.enable</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>dfs.client.metrics.use_domain_socket</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>dfs.default.blocksize</name>
+            <value>268435456</value>
+        </property>
+        <property>
+            <name>dfs.read.hedge_read.interval_ms</name>
+            <value>120</value>
+        </property>
+        <property>
+            <name>input.connect.timeout</name>
+            <value>10000</value>
+        </property>
+        <property>
+            <name>input.read.max.retry</name>
+            <value>3</value>
+        </property>
+        <property>
+            <name>input.read.timeout</name>
+            <value>6000</value>
+        </property>
+        <property>
+            <name>input.write.timeout</name>
+            <value>10000</value>
+        </property>
+        <property>
+            <name>output.close.timeout</name>
+            <value>256000</value>
+        </property>
+        <property>
+            <name>output.connect.timeout</name>
+            <value>10000</value>
+        </property>
+        <property>
+            <name>output.default.write.retry</name>
+            <value>3</value>
+        </property>
+        <property>
+            <name>output.read.timeout</name>
+            <value>120000</value>
+        </property>
+        <property>
+            <name>output.write.timeout</name>
+            <value>256000</value>
+        </property>
+        <property>
+            <name>rpc.client.connect.retry</name>
+            <value>3</value>
+        </property>
+        <property>
+            <name>rpc.client.connect.timeout</name>
+            <value>10000</value>
+        </property>
+        <property>
+            <name>rpc.client.read.timeout</name>
+            <value>20000</value>
+        </property>
+        <property>
+            <name>rpc.client.timeout</name>
+            <value>20000</value>
+        </property>
+        <property>
+            <name>rpc.client.write.timeout</name>
+            <value>20000</value>
+        </property>
+    </configuration>
+  users.yaml: |
+    profiles:
+      default:
+        exchange_timeout_ms: 300000
+        load_balancing: random
+        log_queries: 1
+        max_execution_time: 180
+    quotas:
+      default:
+        interval:
+          duration: 3600
+          errors: 0
+          execution_time: 0
+          queries: 0
+          read_rows: 0
+          result_rows: 0
+    users:
+      default:
+        networks:
+          ip: ::/0
+        password: ""
+        profile: default
+        quota: default
+      probe:
+        networks:
+          ip: ::/0
+        password: probe
+        profile: default
+        quota: default
+      server:
+        networks:
+          ip: ::/0
+        password: ""
+        profile: default
+        quota: default
+  worker.yaml: |
+    catalog:
+      name_space: byconity
+    catalog_service:
+      fdb:
+        cluster_file: /etc/byconity/fdb/cluster-file
+      type: fdb
+    cnch_config: /etc/byconity/cnch-config.yaml
+    cnch_kafka_log:
+      database: cnch_system
+      flush_interval_milliseconds: 60000
+      flush_max_row_count: 100000
+      table: cnch_kafka_log
+    cnch_type: worker
+    dictionaries_config: '*_dictionary.xml'
+    disk_cache_strategies:
+      simple:
+        lru_max_size: 429496729600
+    exchange_port: 9410
+    exchange_status_port: 9510
+    format_schema_path: /var/byconity/format_schemas/
+    hdfs_addr: hdfs://byconity-hdfs-namenodes:8020
+    hdfs3_config: /etc/byconity/hdfs3.xml
+    http_port: 8123
+    listen_host:
+    - '::'
+    - 0.0.0.0
+    listen_try: 1
+    logger:
+      console: true
+      count: 50
+      errorlog: /var/log/byconity/byconity.err.log
+      level: trace
+      log: /var/log/byconity/byconity.log
+      size: 5000M
+      testlog: /var/log/byconity/byconity.test.log
+    mark_cache_size: 5368709120
+    merge_selector: dance
+    path: /var/byconity
+    plan_segment_log:
+      database: system
+      flush_interval_milliseconds: 15000
+      partition_by: event_date
+      table: plan_segment_log
+    prometheus:
+      asynchronous_metrics: true
+      endpoint: /metrics
+      events: true
+      metrics: true
+      part_metrics: false
+      port: 0
+    query_log:
+      database: system
+      flush_interval_milliseconds: 15000
+      partition_by: event_date
+      table: query_log
+    rpc_port: 8124
+    service_discovery:
+      daemon_manager:
+        headless_service: byconity-daemon-manager-headless
+        psm: byconity-daemon-manager
+        service: byconity-daemon-manager
+      resource_manager:
+        headless_service: byconity-resource-manager-headless
+        psm: byconity-resource-manager
+        service: byconity-resource-manager
+      server:
+        headless_service: byconity-server-headless
+        psm: byconity-server
+        service: byconity-server
+      tso:
+        headless_service: byconity-tso-headless
+        psm: byconity-tso
+        service: byconity-tso
+    storage_configuration:
+      cnch_default_policy: cnch_default_hdfs
+      disks:
+        server_hdfs_disk:
+          path: /var/byconity/data
+          type: hdfs
+        server_local_0:
+          path: /var/byconity/data/
+          type: local
+      policies:
+        cnch_default_hdfs:
+          volumes:
+            hdfs:
+              default: server_hdfs_disk
+              disk: server_hdfs_disk
+        default:
+          volumes:
+            local:
+              default: server_local_0
+              disk: server_local_0
+    tcp_port: 9000
+    tmp_path: /var/byconity/tmp
+    tso_service:
+      tso_get_leader_info_interval_ms: 0
+      tso_max_retry_count: 3
+      tso_window_ms: 3000
+    users_config: /etc/byconity/users.yaml
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: byconity
+    meta.helm.sh/release-namespace: byconity
+  creationTimestamp: "2024-12-06T07:42:15Z"
+  labels:
+    app.kubernetes.io/instance: byconity
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: byconity
+    app.kubernetes.io/version: 1.16.0
+    byconity-role: worker
+    byconity-vw: vw_write
+    helm.sh/chart: byconity-0.1.0
+  name: byconity-vw-vw-write-config
+  namespace: byconity
+  resourceVersion: "3776"
+  uid: 3cee6bf3-739a-41d2-aee3-1bc56fd267c8

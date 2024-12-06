@@ -1,0 +1,37 @@
+catalog:
+  name_space: byconity
+catalog_service:
+  fdb:
+    cluster_file: /etc/byconity/fdb/cluster-file
+  type: fdb
+cnch_type: server
+exchange_port: 9410
+exchange_status_port: 9510
+hdfs_addr: hdfs://byconity-hdfs-namenodes:8020
+http_port: 8123
+rpc_port: 8124
+service_discovery:
+  cluster: default
+  daemon_manager:
+    headless_service: byconity-daemon-manager-headless
+    psm: byconity-daemon-manager
+    service: byconity-daemon-manager
+  mode: dns
+  resource_manager:
+    headless_service: byconity-resource-manager-headless
+    psm: byconity-resource-manager
+    service: byconity-resource-manager
+  server:
+    headless_service: byconity-server-headless
+    psm: byconity-server
+    service: byconity-server
+  tso:
+    headless_service: byconity-tso-headless
+    psm: byconity-tso
+    service: byconity-tso
+  vw: {}
+tcp_port: 9000
+tso_service:
+  tso_get_leader_info_interval_ms: 0
+  tso_max_retry_count: 3
+  tso_window_ms: 3000

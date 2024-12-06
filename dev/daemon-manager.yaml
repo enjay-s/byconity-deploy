@@ -1,0 +1,63 @@
+catalog:
+  name_space: default
+catalog_service:
+  fdb:
+    cluster_file: /etc/byconity/fdb/cluster-file
+  type: fdb
+cnch_config: /etc/byconity/cnch-config.yaml
+daemon_manager:
+  daemon_jobs:
+    job:
+    - interval: 10000
+      name: PART_GC
+    - interval: 10000
+      name: PART_MERGE
+    - interval: 10000
+      name: CONSUMER
+    - interval: 5000
+      name: GLOBAL_GC
+    - interval: 600000
+      name: TXN_GC
+  http:
+    port: 8123
+    receive_timeout: 1800
+    send_timeout: 1800
+  port: 9000
+  workload_thread_interval_ms: 1000
+hdfs3_config: /etc/byconity/hdfs3.xml
+listen_host: '::'
+logger:
+  console: true
+  count: 10
+  errorlog: /var/log/byconity/daemon-manager.err.log
+  level: trace
+  log: /var/log/byconity/daemon-manager.log
+  size: 1000M
+  testlog: /var/log/byconity/daemon-manager.test.log
+path: /var/byconity
+service_discovery:
+  mode: dns
+  server:
+    headless_service: byconity-server-headless
+    psm: byconity-server
+    service: byconity-server
+  tso:
+    headless_service: byconity-tso-headless
+    psm: byconity-tso
+    service: byconity-tso
+storage_configuration:
+  cnch_default_policy: cnch_default_hdfs
+  disks:
+    server_hdfs_disk:
+      path: /var/byconity/data
+      type: hdfs
+    server_local_0:
+      path: /var/byconity/data/
+      type: local
+  policies:
+    cnch_default_hdfs:
+      volumes:
+        hdfs:
+          default: server_hdfs_disk
+          disk: server_hdfs_disk
+tmp_path: /var/byconity/tmp/
