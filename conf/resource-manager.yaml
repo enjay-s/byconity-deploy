@@ -1,0 +1,37 @@
+catalog:
+  name_space: default
+catalog_service:
+  fdb:
+    cluster_file: /etc/byconity/fdb/cluster-file
+  type: fdb
+cnch_config: /etc/byconity/cnch-config.yaml
+listen_host: '::'
+logger:
+  console: true
+  count: 10
+  errorlog: /var/log/byconity/resource-manager.err.log
+  level: trace
+  log: /var/log/byconity/resource-manager.log
+  size: 1000M
+  testlog: /var/log/byconity/resource-manager.test.log
+resource_manager:
+  http:
+    port: 8123
+    receive_timeout: 1800
+    send_timeout: 1800
+  port: 9000
+  vws:
+    vw:
+    - name: vw_default
+      num_workers: 1
+      type: default
+      worker_groups: ""
+    - name: vw_write
+      num_workers: 1
+      type: write
+      worker_groups: ""
+service_discovery:
+  tso:
+    headless_service: byconity-tso-headless
+    psm: byconity-tso
+    service: byconity-tso
