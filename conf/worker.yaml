@@ -1,0 +1,78 @@
+cnch_type: worker
+cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config.yaml
+
+exchange_port: 58410
+exchange_status_port: 58510
+http_port: 58123
+rpc_port: 58124
+tcp_port: 58000
+
+listen_host:
+  - '::'
+  - 0.0.0.0
+listen_try: 1
+logger:
+  console: true
+  count: 50
+  errorlog: /data1/songenjie001/deploy/byconity/logs/worker_default.err.log
+  level: trace
+  log: /data1/songenjie001/deploy/byconity/logs/worker_default.log
+  size: 5000M
+  testlog: /data1/songenjie001/deploy/byconity/logs/worker_default.test.log
+
+format_schema_path: /data1/songenjie001/deploy/byconity/worker_default/format_schemas/
+tmp_path: /data1/songenjie001/deploy/byconity/worker_default/tmp
+path: /data1/songenjie001/deploy/byconity/worker_default/data
+
+cnch_kafka_log:
+  database: cnch_system
+  flush_interval_milliseconds: 60000
+  flush_max_row_count: 100000
+  table: cnch_kafka_log
+
+dictionaries_config: '/data1/songenjie001/deploy/byconity/config/*_dictionary.xml'
+
+mark_cache_size: 5368709120
+disk_cache_strategies:
+  simple:
+    lru_max_size: 429496729600
+
+merge_selector: dance
+
+plan_segment_log:
+  database: system
+  flush_interval_milliseconds: 15000
+  partition_by: event_date
+  table: plan_segment_log
+
+prometheus:
+  asynchronous_metrics: true
+  endpoint: /metrics
+  events: true
+  metrics: true
+  part_metrics: false
+  port: 0
+
+query_log:
+  database: system
+  flush_interval_milliseconds: 15000
+  partition_by: event_date
+  table: query_log
+
+storage_configuration:
+  cnch_default_policy: cnch_default_hdfs
+  disks:
+    server_hdfs_disk:
+      path: /data1/songenjie001/deploy/byconity/worker_default/data
+      type: hdfs
+    #server_local_0:
+    #  path: /data1/songenjie001/deploy/byconity/worker_default/data/
+    #  type: local
+  policies:
+    cnch_default_hdfs:
+      volumes:
+        hdfs:
+          default: server_hdfs_disk
+          disk: server_hdfs_disk
+
+users_config: /data1/songenjie001/deploy/byconity/config/users.yaml
