@@ -61,17 +61,42 @@ tso_service:
   type: fdb
 
 service_discovery:
+  mode: local
   cluster: default
-  mode: dns
+  disable_cache: 'false'
+  cache_timeout: '5'
   server:
     headless_service: byconity-server-headless
     psm: byconity-server
     service: byconity-server
+    node:
+      host: 127.0.0.1
+      hostname: 127.0.0.1
+      ports:
+        port:
+          - name: PORT0
+            value: '47124'
+          - name: PORT1
+            value: '48410'
+          - name: PORT2
+            value: '48510'
+          - name: PORT3
+            value: '48123'
+          - name: PORT4
+            value: '48000'
   tso:
     headless_service: byconity-tso-headless
     psm: byconity-tso
     service: byconity-tso
-
+    node:
+      host: 127.0.0.1
+      hostname: 127.0.0.1
+      ports:
+        port:
+          - name: PORT0
+            value: '18213'
+          - name: PORT1
+            value: '18000'
 
 
 storage_configuration:
