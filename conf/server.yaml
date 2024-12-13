@@ -4,7 +4,7 @@ cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config.yaml
 exchange_port: 48410
 exchange_status_port: 48510
 http_port: 48123
-rpc_port: 48124
+rpc_port: 47124
 tcp_port: 48000
 
 listen_host:
@@ -14,12 +14,12 @@ listen_try: 1
 logger:
   console: true
   count: 50
-  errorlog: /data1/songenjie001/deploy/byconity/logs/byconity.err.log
+  errorlog: /data1/songenjie001/deploy/byconity/logs/server.err.log
   level: trace
-  log: /data1/songenjie001/deploy/byconity/logs/byconity.log
+  log: /data1/songenjie001/deploy/byconity/logs/server.log
   size: 5000M
-  testlog: /data1/songenjie001/deploy/byconity/logs/byconity.test.log
-path: /data1/songenjie001/deploy/byconity/server/data_path
+  testlog: /data1/songenjie001/deploy/byconity/logs/server.test.log
+path: /data1/songenjie001/deploy/byconity/server/
 tmp_path: /data1/songenjie001/deploy/byconity/server/tmp
 format_schema_path: /data1/songenjie001/deploy/byconity/server/format_schemas/
 
@@ -60,19 +60,22 @@ query_log:
   table: query_log
 
 storage_configuration:
-  cnch_default_policy: cnch_default_hdfs
+  cnch_default_policy: default
   disks:
     server_hdfs_disk:
-      path: /data1/songenjie001/deploy/byconity/server/data
+      path: /server/
       type: hdfs
-    #server_local_0:
-    #  path: /data1/songenjie001/deploy/byconity/data/
-    #  type: local
+      hdfs_params:
+        hdfs_user: root
+        hdfs_addr: hdfs://127.0.0.1:8020/
+    server_local_disk:
+      path: /data1/songenjie001/deploy/byconity/server/data/
+      type: local
   policies:
-    cnch_default_hdfs:
+    default:
       volumes:
-        hdfs:
-          default: server_hdfs_disk
+        local:
+          disk: server_local_disk
           disk: server_hdfs_disk
 
 users_config: /data1/songenjie001/deploy/byconity/config/users.yaml

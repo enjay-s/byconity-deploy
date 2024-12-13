@@ -1,11 +1,13 @@
 catalog:
-  name_space: enjay
+  name_space: default
 
 catalog_service:
   fdb:
-    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/cluster-file
+    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/fdb.cluster
   type: fdb
 
+hdfs_addr: hdfs://127.0.0.1:8020
+hdfs_user: root
 hdfs3_config: /data1/songenjie001/deploy/byconity/config/hdfs3.xml
 
 service_discovery:
@@ -27,19 +29,18 @@ service_discovery:
     headless_service: byconity-tso-headless
     psm: byconity-tso
     service: byconity-tso
-  vw: {}
+  vw:
+    psm: byconity-vw 
 
 tso_service:
   tso_get_leader_info_interval_ms: 0
   tso_max_retry_count: 3
   tso_window_ms: 3000
   fdb:
-    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/cluster-file
+    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/fdb.cluster
   http:
     port: 18123
     receive_timeout: 1800
     send_timeout: 1800
-  port: 19000
+  port: 18000
   type: fdb
-
-zookeeper: {}

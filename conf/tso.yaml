@@ -1,11 +1,11 @@
-cnch_type: server
-cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config-server.yaml
+#cnch_type: server
+cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config.yaml
 
-exchange_port: 18410
-exchange_status_port: 18510
-http_port: 18123
-rpc_port: 18124
-tcp_port: 18000
+#exchange_port: 18410
+#exchange_status_port: 18510
+#http_port: 18123
+#rpc_port: 18124
+#tcp_port: 18000
 
 listen_host: '::'
 
@@ -36,3 +36,16 @@ keeper_server:
   server_id: 0
   snapshot_storage_path: /data1/songenjie001/deploy/byconity/tso/snapshots
   tcp_port: 18181
+
+tso_service:
+  tso_get_leader_info_interval_ms: 0
+  tso_max_retry_count: 3
+  tso_window_ms: 3000
+  fdb:
+    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/fdb.cluster
+  http:
+    port: 18123
+    receive_timeout: 1800
+    send_timeout: 1800
+  port: 18000
+  type: fdb

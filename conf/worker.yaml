@@ -9,7 +9,7 @@ tcp_port: 58000
 
 listen_host:
   - '::'
-  - 0.0.0.0
+
 listen_try: 1
 logger:
   console: true
@@ -22,7 +22,7 @@ logger:
 
 format_schema_path: /data1/songenjie001/deploy/byconity/worker_default/format_schemas/
 tmp_path: /data1/songenjie001/deploy/byconity/worker_default/tmp
-path: /data1/songenjie001/deploy/byconity/worker_default/data
+path: /data1/songenjie001/deploy/byconity/worker_default/
 
 cnch_kafka_log:
   database: cnch_system
@@ -33,9 +33,9 @@ cnch_kafka_log:
 dictionaries_config: '/data1/songenjie001/deploy/byconity/config/*_dictionary.xml'
 
 mark_cache_size: 5368709120
-disk_cache_strategies:
-  simple:
-    lru_max_size: 429496729600
+#disk_cache_strategies:
+#  simple:
+#    lru_max_size: 6729600
 
 merge_selector: dance
 
@@ -59,20 +59,48 @@ query_log:
   partition_by: event_date
   table: query_log
 
+
+
+service_discovery:
+  cluster: default
+  mode: dns
+  daemon_manager:
+    headless_service: byconity-daemon-manager-headless
+    psm: byconity-daemon-manager
+    service: byconity-daemon-manager
+  resource_manager:
+    headless_service: byconity-resource-manager-headless
+    psm: byconity-resource-manager
+    service: byconity-resource-manager
+  server:
+    headless_service: byconity-server-headless
+    psm: byconity-server
+    service: byconity-server
+  tso:
+    headless_service: byconity-tso-headless
+    psm: byconity-tso
+    service: byconity-tso
+  vw: {}
+
 storage_configuration:
-  cnch_default_policy: cnch_default_hdfs
+  cnch_default_policy: default
   disks:
     server_hdfs_disk:
-      path: /data1/songenjie001/deploy/byconity/worker_default/data
+      path: /worker_default
       type: hdfs
-    #server_local_0:
-    #  path: /data1/songenjie001/deploy/byconity/worker_default/data/
-    #  type: local
+      hdfs_params:
+        hdfs_user: root
+        hdfs_addr: hdfs://127.0.0.1:8020/
+    server_local_disk: 
+      path: /data1/songenjie001/deploy/byconity/worker_default/data
+      type: local
   policies:
-    cnch_default_hdfs:
+    default:
       volumes:
-        hdfs:
-          default: server_hdfs_disk
-          disk: server_hdfs_disk
+        local:
+          default: server_local_disk
+          disk: server_local_disk
+          #default: server_hdfs_disk
+          #disk: server_hdfs_disk
 
 users_config: /data1/songenjie001/deploy/byconity/config/users.yaml

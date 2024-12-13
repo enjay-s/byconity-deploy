@@ -1,5 +1,9 @@
 cnch_type: server
-cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config-server.yaml
+cnch_config: /data1/songenjie001/deploy/byconity/config/cnch-config.yaml
+
+hdfs_addr: hdfs://127.0.0.1:8020
+hdfs_user: root
+hdfs3_config: /data1/songenjie001/deploy/byconity/config/hdfs3.xml
 
 exchange_port: 38410
 exchange_status_port: 38510
@@ -7,7 +11,10 @@ http_port: 38123
 rpc_port: 38124
 tcp_port: 38000
 
-listen_host: '::'
+listen_host:
+  - '::'
+#  - 0.0.0.0
+#  - 255.255.255.0
 
 logger:
   console: true
@@ -40,18 +47,46 @@ daemon_manager:
   port: 38000
   workload_thread_interval_ms: 1000
 
+tso_service:
+  tso_get_leader_info_interval_ms: 0
+  tso_max_retry_count: 3
+  tso_window_ms: 3000
+  fdb:
+    cluster_file: /data1/songenjie001/deploy/byconity/config/fdb/fdb.cluster
+  http:
+    port: 18123
+    receive_timeout: 1800
+    send_timeout: 1800
+  port: 18000
+  type: fdb
+
+service_discovery:
+  cluster: default
+  mode: dns
+  server:
+    headless_service: byconity-server-headless
+    psm: byconity-server
+    service: byconity-server
+  tso:
+    headless_service: byconity-tso-headless
+    psm: byconity-tso
+    service: byconity-tso
+
+
+
 storage_configuration:
-  cnch_default_policy: cnch_default_hdfs
+  cnch_default_policy: default
   disks:
     server_hdfs_disk:
-      path: /data1/songenjie001/deploy/byconity/dm/data
+      path: /dm/
       type: hdfs
-    #server_local_0:
-    #  path: /data1/songenjie001/deploy/byconity/data/
-    #  type: local
+      hdfs_params:
+        hdfs_user: root
+        hdfs_addr: hdfs://127.0.0.1:8020/
   policies:
-    cnch_default_hdfs:
+    default:
       volumes:
-        hdfs:
-          default: server_hdfs_disk
+        local:
           disk: server_hdfs_disk
+
+users_config: /data1/songenjie001/deploy/byconity/config/users.yaml

@@ -30,7 +30,3 @@ resource_manager:
         num_workers: 1
         type: default
         worker_groups: ""
-      - name: vw_write
-        num_workers: 1
-        type: write
-        worker_groups: ""
