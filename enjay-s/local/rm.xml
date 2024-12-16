@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+  NOTE: User and query level settings are set up in "users.xml" file.
+  If you have accidentally specified user-level settings here, server won't start.
+  You can either move the settings to the right place inside "users.xml" file
+   or add <skip_check_for_incorrect_settings>1</skip_check_for_incorrect_settings> here.
+-->
+
+<yandex>
+    <logger>
+        <level>trace</level>
+        <log>/data1/songenjie001/deploy/byconity/logs/rm.log</log>
+        <errorlog>/data1/songenjie001/deploy/byconity/logs/rm.log</errorlog>
+        <size>1000M</size>
+        <count>10</count>
+    </logger>
+
+    <path>/data1/songenjie001/deploy/byconity/rm/data/</path>
+    <cnch_data_retention_time_in_sec>5</cnch_data_retention_time_in_sec>
+    <background_schedule_pool_size>6</background_schedule_pool_size>
+
+    <rpc_port>18686</rpc_port>
+
+    <resource_manager>
+        <port>18989</port>
+        <vws>
+            <vw>
+                <name>vw_default</name>
+                <type>Default</type>
+                <num_workers>0</num_workers>
+                <worker_groups>
+                    <worker_group>
+                        <name>wg_default</name>
+                        <type>Physical</type>
+                    </worker_group>
+                </worker_groups>
+            </vw>
+            <vw>
+                <name>vw_write</name>
+                <type>Write</type>
+                <num_workers>0</num_workers>
+                <worker_groups>
+                    <worker_group>
+                        <name>wg_write</name>
+                        <type>Physical</type>
+                    </worker_group>
+                </worker_groups>
+            </vw>
+        </vws>
+    </resource_manager>
+    <cnch_config>/root/app/config/cnch_config.xml</cnch_config>
+</yandex>

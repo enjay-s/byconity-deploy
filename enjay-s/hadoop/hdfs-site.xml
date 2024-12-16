@@ -1,0 +1,27 @@
+<configuration>
+	<property>
+		<name>dfs.replication</name>
+		<value>1</value>
+	</property>
+
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/data1/songenjie001/deploy/hdfs/tmp</value>
+	</property>
+	
+        <property>
+		<name>dfs.namenode.name.dir</name>
+		<value>/data1/songenjie001/deploy/hdfs/namenode</value>
+	</property>
+
+	<!--<property>
+		<name>dfs.datanode.name.dir</name>
+		<value>/data1/songenjie001/deploy/hdfs/datanode</value>
+	</property>-->
+
+	<property>
+		<name>dfs.hosts</name>
+		<value>/data1/songenjie001/deploy/hdfs/datanodes_list.txt</value>
+	</property>
+</configuration>
+
