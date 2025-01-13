@@ -1,23 +1,78 @@
 # ByConity Deploy
 
-This folder structure of this repo is shown below. See [how to deploy a ByConity cluster in your Kubernetes cluster](https://byconity.github.io/docs/deployment/deploy-k8s) for detail information.
+### 一 Role
 
-### File Introduction
-```-- byconity
-|-- Chart.yaml                     # YAML file containing information about the byconity chart
-|-- charts
-|   |-- fdb-operator               # fbd-operator Chart
-|   `-- hdfs                       # hdfs Chart
-|-- files                          # Byconity components config file template
-|   |-- cnch-config.yaml           # config file template for some significant configurations
-|   |-- daemon-manager.yaml        # config file template for daemon-manager
-|   |-- resource-manager.yaml      # config file template for resource-manager
-|   |-- server.yaml                # config file template for cnch-server
-|   |-- tso.yaml                   # config file template for tso
-|   |-- users.yaml                 # config file template for user configutation
-|   `-- worker.yaml                # config file template for byconity-worker
-|-- templates                      # A directory of templates that, when combined with values,
-                                   # will generate valid Kubernetes manifest files.
-`-- values.yaml                    # The default configuration values for this chart
+
+
+#### MetaStore
+
+FDB
+
+
+
+#### Storage
+
+hdfs
+
+
+
+#### Scheduler
+
+k8s
+
+
+
+### 二 ByConity 
+
+#### On Local
+
+```shell
+mv local  /etc/byconity 
+ln -s /etc/byconity/mssh.sh /usr/bin/mssh 
+ln -s /etc/byconity/mscp.sh /usr/bin/mscp
+ln -s /etc/byconity/worker.sh /usr/bin/worker
+ln -s /etc/byconity/server.sh /usr/bin/server
+ln -s /etc/byconity/cnch.sh /usr/bin/cnch
+
+
+参数介绍：
+S1 部署操作(config service start restart stop status)
+S2 操作角色(all tso server read write dm rm)
+//all tso server worker-read worker-write daemon-manager resource-manager
+
+## 配置下发
+deploy config all
+
+
+## service下发
+deploy service all
+
+
+## start 
+deploy start all
+```
+
+
+
+#### On K8s mode1
+
+```shell
+## 搭建
+helm upgrade --install --create-namespace --namespace namespace1  -f ./k8s-mode1/byconity.yaml byconity ./k8s-mode1
+
+## uninstall
+helm uninstall --namespace namespace1  byconity
+```
+
+
+
+#### On K8s mode2
+
+```shell
+## 搭建
+helm upgrade --install --create-namespace --namespace namespace1  -f ./k8s-mode2/byconity.yaml byconity ./k8s-mode2
+
+## uninstall
+helm uninstall --namespace namespace1  byconity
 ```
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<yandex>
+    <logger>
+        <level>debug</level>
+        <log>/data/byconity/log/rm.log</log>
+        <errorlog>/data/byconity/log/rm.err.log</errorlog>
+        <testlog>/data/byconity/log/rm.test.log</testlog>
+        <size>1000M</size>
+        <count>10</count>
+    </logger>
+
+    <resource_manager>
+        <port>9925</port>
+        <vws>
+            <vw>
+                <name>vw_default</name>
+                <type>Default</type>
+                <num_workers>1</num_workers>
+                <worker_groups>
+                    <worker_group>
+                        <name>wg_default_a</name>
+                        <type>Physical</type>
+                    </worker_group>
+                </worker_groups>
+            </vw>
+            <vw>
+                <name>vw_write</name>
+                <type>Default</type>
+                <num_workers>1</num_workers>
+                <worker_groups>
+                    <worker_group>
+                        <name>wg_write_a</name>
+                        <type>Physical</type>
+                    </worker_group>
+                </worker_groups>
+            </vw>
+        </vws>
+    </resource_manager>
+
+    <cnch_config>/etc/byconity/config/cnch_config.xml</cnch_config>
+</yandex>
+
